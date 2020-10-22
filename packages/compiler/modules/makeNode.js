@@ -1,10 +1,7 @@
 const getNode = () => ({
   __dirname: false,
   __filename: false,
-  console: true,
-  net: 'empty',
-  tls: 'empty',
-  dns: 'empty'
+  global: false
 });
 
 module.exports = getNode;

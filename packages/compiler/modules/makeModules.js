@@ -40,7 +40,7 @@ function getModules(conf = {}, mode, root) {
       use: [
         {
           loader: require.resolve('file-loader'),
-          query: {
+          options: {
             name: '[name].[hash].[ext]'
           }
         },
@@ -65,7 +65,7 @@ function getModules(conf = {}, mode, root) {
       use: [
         {
           loader: require.resolve('babel-loader'),
-          query: createBabelPresets({
+          options: createBabelPresets({
             isNodejs: !!conf.nodejs,
             framework: 'react',
             loadable: conf.__isIsomorphicLoader,
@@ -79,9 +79,11 @@ function getModules(conf = {}, mode, root) {
     },
 
     mjs: {
-      test: /\.mjs$/,
-      include: /node_modules/,
-      type: 'javascript/auto'
+      test: /\.m?js/,
+      type: 'javascript/auto',
+      resolve: {
+        fullySpecified: false
+      }
     },
 
     graphql: {
@@ -104,7 +106,7 @@ function getModules(conf = {}, mode, root) {
       use: conf.__isIsomorphicLoader ? [
         {
           loader: require.resolve('babel-loader'),
-          query: createBabelPresets({
+          options: createBabelPresets({
             isNodejs: !!conf.nodejs,
             framework: 'react',
             loadable: true,
@@ -141,7 +143,7 @@ function getModules(conf = {}, mode, root) {
       use: conf.__isIsomorphicLoader ? [
         {
           loader: require.resolve('babel-loader'),
-          query: createBabelPresets({
+          options: createBabelPresets({
             isNodejs: !!conf.nodejs,
             framework: false,
             loadable: true,
@@ -222,7 +224,7 @@ function getModules(conf = {}, mode, root) {
       use: [
         {
           loader: require.resolve('babel-loader'),
-          query: createBabelPresets({
+          options: createBabelPresets({
             isNodejs: !!conf.nodejs,
             framework: 'react',
             loadable: conf.__isIsomorphicLoader,
@@ -238,7 +240,7 @@ function getModules(conf = {}, mode, root) {
       use: [
         {
           loader: require.resolve('babel-loader'),
-          query: createBabelPresets({
+          options: createBabelPresets({
             isNodejs: !!conf.nodejs,
             isProduction
           })
@@ -257,7 +259,7 @@ function getModules(conf = {}, mode, root) {
       use: [
         {
           loader: require.resolve('file-loader'),
-          query: {
+          options: {
             name: 'media/[name][hash].[ext]'
           }
         }
@@ -269,7 +271,7 @@ function getModules(conf = {}, mode, root) {
       use: [
         {
           loader: require.resolve('file-loader'),
-          query: {
+          options: {
             name: 'images/[name][hash].[ext]'
           }
         }
@@ -281,7 +283,7 @@ function getModules(conf = {}, mode, root) {
       use: [
         {
           loader: require.resolve('url-loader'),
-          query: {
+          options: {
             limit: 10000,
             name: 'images/[name][hash].[ext]'
           }
@@ -294,7 +296,7 @@ function getModules(conf = {}, mode, root) {
       use: [
         {
           loader: require.resolve('url-loader'),
-          query: {
+          options: {
             limit: 10000,
             name: 'fonts/[name][hash].[ext]'
           }
@@ -326,7 +328,7 @@ function getModules(conf = {}, mode, root) {
       test: /\.component\.svg(\?v=\d+\.\d+\.\d+)?$/,
       use: [{
         loader: require.resolve('babel-loader'),
-        query: createBabelPresets({
+        options: createBabelPresets({
           isNodejs: !!conf.nodejs,
           framework: 'react',
           loadable: conf.__isIsomorphicLoader,
@@ -342,7 +344,7 @@ function getModules(conf = {}, mode, root) {
       use: [
         {
           loader: require.resolve('url-loader'),
-          query: {
+          options: {
             limit: 10000,
             name: 'svg/[path][name].[ext]',
           }

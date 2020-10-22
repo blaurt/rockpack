@@ -152,7 +152,7 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
     const liveReloadPort = await fpPromise(isNumber(conf.liveReload) ? conf.liveReload : 35729);
     conf._liveReloadPort = liveReloadPort;
     process.env.__LIVE_RELOAD__ = liveReloadPort;
-    plugins.liveReload = new LiveReloadPlugin({ port: liveReloadPort, delay: 300, quiet: true });
+    //plugins.liveReload = new LiveReloadPlugin({ port: liveReloadPort, delay: 300, quiet: true });
 
     conf.messages.push(`LiveReload is listening on port ${liveReloadPort}`);
 
@@ -288,12 +288,11 @@ const getPlugins = async (conf, mode, root, packageJson, webpack, context) => {
    * DEVELOPMENT
    * */
   if (mode === 'development') {
-    plugins.NamedModulesPlugin = new webpack.NamedModulesPlugin();
-    plugins.NamedChunksPlugin = new webpack.NamedChunksPlugin();
-
-    plugins.WatchIgnorePlugin = new webpack.WatchIgnorePlugin([
-      /css\.d\.ts$/
-    ]);
+    plugins.WatchIgnorePlugin = new webpack.WatchIgnorePlugin({
+      paths: [
+        /css\.d\.ts$/
+      ]
+    });
 
     plugins.HotModuleReplacementPlugin = new webpack.HotModuleReplacementPlugin();
 
