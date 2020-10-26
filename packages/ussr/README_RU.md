@@ -27,7 +27,7 @@ React из коробки может рендерить приложение н�
 
 Схематично это выглядит так:
 
-![Rockpack USSR](https://www.rock-book.io/readme_assets/rockpack_ussr_1.png)
+![Rockpack USSR](https://www.rockpack.io/readme_assets/rockpack_ussr_1.png)
 
 - SSR приложение состоит из двух под-приложений - frontend, backend с общей логикой.
 - NodeJS приложение выполняет React приложение.
@@ -74,7 +74,7 @@ render(
 );
 ```
 
-Чтобы из этого приложения получить SSR, нужно:
+**Сделаем это приложение SSR:**
 
 1. Установка:
 
@@ -111,16 +111,17 @@ isomorphicCompiler(
 
 ```jsx
 import React from 'react';
-import { useUssrState, useWillMount, useUssrEffect } from '@rockpack/ussr';
+import { useUssrState, useUssrEffect } from '@rockpack/ussr';
 
 const asyncFn = () => new Promise((resolve) => setTimeout(() => resolve({ text: 'Hello world' }), 1000));
 
 export const App = () => {
   const [state, setState] = useUssrState('appState.text', { text: 'text here' });
-  const effect = useUssrEffect('unique_effect_id');
 
-  useWillMount(effect, () => asyncFn()
-    .then(data => setState(data)));
+  useUssrEffect(async () => {
+    const data = await asyncFn();
+    setState(data);
+  });
 
   return (
     <div>
@@ -130,13 +131,11 @@ export const App = () => {
 };
 ```
 
-В данном коде *effect* это асинхронная операция, которая эмулирует обращение на сервер.
+В данном коде *asyncFn* это асинхронная операция, которая эмулирует обращение на сервер.
 
  - *useUssrState* - аналог useState только с поддержкой SSR
 
- - *useUssrEffect* - указывает, что данный компонент имеет асинхронную логику
-
- - *useWillMount* - аналог useEffect(() => {}, []); для SSR.
+ - *useUssrEffect* - аналог useEffect(() => {}, []); для SSR. Работает с асинхронной логикой.
 
 4. **client.jsx** должен содержать часть приложения для frontend
 

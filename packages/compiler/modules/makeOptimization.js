@@ -8,7 +8,7 @@ const makeOptimization = (mode, conf) => {
     Object.assign(optimization, {
       moduleIds: 'named',
       chunkIds: 'named',
-      nodeEnv: 'development',
+      nodeEnv: mode,
       flagIncludedChunks: false,
       concatenateModules: false,
       splitChunks: {
@@ -28,7 +28,7 @@ const makeOptimization = (mode, conf) => {
     Object.assign(optimization, {
       moduleIds: 'size',
       chunkIds: 'total-size',
-      nodeEnv: 'production',
+      nodeEnv: mode,
       flagIncludedChunks: true,
       concatenateModules: true,
       splitChunks: {
